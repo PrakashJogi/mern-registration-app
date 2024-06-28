@@ -1,0 +1,87 @@
+.user-list-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .user-list-header {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+  }
+  
+  .user-table-card{
+      overflow: auto;
+      height: 70vh;
+  }
+  .user-table-card-empty{
+    overflow: auto;
+    height: 70vh;
+    width: 70vh;
+  }
+
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .user-table th, .user-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .user-table th {
+    background-color: #f2f2f2;
+    color: #333;
+  }
+  
+  .user-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .user-table img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border: 2px solid #ddd;
+  }
+  
+  .user-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .user-actions button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+  }
+  
+  .user-actions .edit-btn {
+    background: #4CAF50;
+    color: #fff;
+  }
+  
+  .user-actions .edit-btn:hover {
+    background: #45A049;
+  }
+  
+  .user-actions .delete-btn {
+    background: #f44336;
+    color: #fff;
+  }
+  
+  .user-actions .delete-btn:hover {
+    background: #e53935;
+  }
+  
