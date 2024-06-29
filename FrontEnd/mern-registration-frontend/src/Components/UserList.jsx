@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./UserList.scss"; // Import the compiled CSS
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
 import EditUserForm from "./EditUserForm";
 
-const UserList = ({ onEdit }) => {
+const UserList = ({ onEdit, setUser }) => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null); // State to manage editing user
   const [isEditModalOpen, setIsEditModalOpen] = useState(false); // State to manage edit modal
+  const navigate = useNavigate(); // Initialize navigate hook
 
   useEffect(() => {
     getUserList();
@@ -54,7 +61,7 @@ const UserList = ({ onEdit }) => {
   return (
     <div className="user-list-container">
       <div>
-        <Link to="/">
+        <Link to="/user-login">
           <button
             style={{
               padding: 8,
@@ -67,12 +74,19 @@ const UserList = ({ onEdit }) => {
               cursor: "pointer",
               color: "white",
             }}
+            onClick={() => {
+              localStorage.removeItem("token");
+              setUser(null);
+              navigate("/");
+            }}
           >
-            Back
+            Logout
           </button>
         </Link>
       </div>
-      <h2 className="user-list-header" style={{color:'#6673DE'}}>Registered Users</h2>
+      <h2 className="user-list-header" style={{ color: "#6673DE" }}>
+        Registered Users
+      </h2>
       <div
         className={`${
           users.length > 0 ? "user-table-card" : "user-table-card-empty"

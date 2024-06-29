@@ -46,7 +46,7 @@ body {
   }
 
   .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 
     label {
       display: block;
@@ -58,6 +58,18 @@ body {
     input[type="email"],
     input[type="file"],
     input[type="tel"] {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      transition: border-color 0.2s;
+
+      &:focus {
+        border-color: $primary-color;
+        outline: none;
+      }
+    }
+    input[type="password"] {
       width: 100%;
       padding: 0.5rem;
       border: 1px solid #ced4da;

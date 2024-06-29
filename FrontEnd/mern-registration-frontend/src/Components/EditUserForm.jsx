@@ -25,7 +25,7 @@ const EditUserForm = ({ isOpen, onRequestClose, user, getUserList }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [contact, setContact] = useState("");
+  const [contactInfo, setContact] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const EditUserForm = ({ isOpen, onRequestClose, user, getUserList }) => {
         name,
         email,
         username,
-        contact,
+        contactInfo,
         profilePicture,
       });
       alert("User updated successfully.");
@@ -97,10 +97,12 @@ const EditUserForm = ({ isOpen, onRequestClose, user, getUserList }) => {
           <label>
             Contact:
             <input
-              type="text"
-              value={contact}
+              type="tel"
+              value={contactInfo}
               onChange={(e) => setContact(e.target.value)}
               required
+              maxLength={10}
+              minLength={10}
             />
           </label>
           <label>

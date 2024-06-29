@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./UserForm.scss"; // Import the compiled CSS
 import axios from "axios";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import bcrypt from "bcryptjs";
 
 const UserForm = () => {
   // const history = useHistory();
@@ -11,10 +12,10 @@ const UserForm = () => {
     username: "",
     contact: "",
     profilePicture: null,
+    password: "",
   });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,7 +34,10 @@ const UserForm = () => {
     setLoading(true);
     setError(null);
 
-    const { name, email, username, contact, profilePicture } = formData;
+    const { name, email, username, contact, profilePicture, password } =
+      formData;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create form data object
     const data = new FormData();
@@ -41,27 +45,37 @@ const UserForm = () => {
     data.append("email", email);
     data.append("username", username);
     data.append("contactInfo", contact);
+    data.append("password", password);
     if (profilePicture) {
       data.append("profilePicture", profilePicture);
     }
 
     try {
-      await axios.post("http://localhost:5000/api/users/register", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }).catch((e)=>{
-        console.log(e);
-      });
-      setLoading(false);
-      alert("User registered successfully.");
-      setFormData({
-        name: "",
-        email: "",
-        username: "",
-        contact: "",
-        profilePicture: null,
-      });
+      await axios
+        .post("http://localhost:5000/api/users/register", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          if (res.status === 201) {
+            setLoading(false);
+            alert("User registered successfully.");
+            setFormData({
+              name: "",
+              email: "",
+              username: "",
+              contact: "",
+              profilePicture: null,
+              password: "",
+            });
+          } else {
+            alert("Something went wrong");
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     } catch (err) {
       setLoading(false);
       setError(err.response?.data?.message || "Something went wrong");
@@ -75,6 +89,7 @@ const UserForm = () => {
       username: "",
       contact: "",
       profilePicture: null,
+      password: "",
     });
   };
   return (
@@ -86,7 +101,7 @@ const UserForm = () => {
           display: "flex",
         }}
       >
-        <Link to="/user-list">
+        {/* <Link to="/user-list">
           <button
             style={{
               padding: 8,
@@ -101,6 +116,23 @@ const UserForm = () => {
             }}
           >
             User List
+          </button>
+        </Link> */}
+        <Link to="/user-login">
+          <button
+            style={{
+              padding: 8,
+              marginBottom: 8,
+              paddingLeft: 12,
+              paddingRight: 12,
+              backgroundColor: "#6673DE",
+              borderRadius: 4,
+              border: "none",
+              cursor: "pointer",
+              color: "white",
+            }}
+          >
+            Login
           </button>
         </Link>
       </div>
@@ -160,12 +192,24 @@ const UserForm = () => {
               id="profilePicture"
               name="profilePicture"
               required
+              // value={formData.profilePicture}
               onChange={handleFileChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
             />
           </div>
           <div className="form-actions">
             <button type="submit" className="submit-btn">
-              Submit
+              Sign Up
             </button>
             <button type="button" className="reset-btn" onClick={handleReset}>
               Reset
