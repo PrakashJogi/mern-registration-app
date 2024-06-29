@@ -123,6 +123,7 @@ const UserList = ({ onEdit, setUser }) => {
                     <button
                       className="edit-btn"
                       onClick={() => handleEdit(user)}
+                      style={{marginRight:8}}
                     >
                       Edit
                     </button>
